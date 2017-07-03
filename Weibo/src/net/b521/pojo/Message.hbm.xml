@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="net.b521.pojo">
+
+	<class name="Message" table="t_message">
+		<id name="id" column="id">
+			<generator class="native"/>
+		</id>
+		<property name="message"/>
+		<property name="createTime" generated="insert">
+			<column name="createTime" sql-type="timestamp" default="CURRENT_TIMESTAMP"></column>
+		</property>
+		<many-to-one name="user" column="userId" class="User"></many-to-one>
+	</class>
+
+
+</hibernate-mapping>
+

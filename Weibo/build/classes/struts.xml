@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	
+	<package name="userPackage" extends="struts-default">
+		<action name="user" class="userAction">
+			<result name="success">/WEB-INF/views/user.jsp</result>
+		</action>
+		
+		<action name="login" class="userAction" method="toLogin">
+			<result name="success">/WEB-INF/views/login.jsp</result>
+		</action>
+		
+		<action name="reg" class="userAction" method="toReg">
+			<result name="success">/WEB-INF/views/reg.jsp</result>
+		</action>
+		
+		<action name="userreg" class="userAction" method="userReg">
+			<result name="success" type="redirectAction">
+				<param name="actionName">login</param>
+				<param name="code">1001</param>
+			</result>
+		</action>
+		
+		<action name="userlogin" class="userAction" method="login">
+			<!-- 账户密码错误 -->
+			<result name="error" type="redirectAction">
+				<param name="actionName">login</param>
+				<param name="code">1002</param>
+			</result>
+			<result name="success" type="redirectAction">
+				<param name="actionName">list</param>
+			</result>
+		</action>
+		
+	</package>
+	
+	
+	<package name="weiboPackage" extends="struts-default">
+		
+		<interceptors>
+			<interceptor name="LoginInterceptor" class="net.b521.action.interceptor.LoginInterceptor"></interceptor>
+			<interceptor-stack name="myStack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="LoginInterceptor"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		
+		<default-interceptor-ref name="myStack"></default-interceptor-ref>
+		
+		<action name="list" class="weiboAction" method="execute">
+			<result name="success">/WEB-INF/views/weibo.jsp</result>
+			<result name="login" type="redirectAction">
+				<param name="actionName">login</param>
+				<param name="code">1003</param>
+			</result>
+		</action>
+		
+		<action name="send" class="weiboAction" method="save">
+			<result name="success" type="redirectAction">
+				<param name="actionName">list</param>
+			</result>
+		</action>
+		
+		
+	</package>
+
+
+</struts>
